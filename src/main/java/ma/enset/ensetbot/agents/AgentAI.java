@@ -1,5 +1,6 @@
 package ma.enset.ensetbot.agents;
 
+import ma.enset.ensetbot.tools.ToolsAI;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -10,7 +11,9 @@ import reactor.core.publisher.Flux;
 public class AgentAI {
     private ChatClient chatClient;
 
-    public AgentAI(ChatClient.Builder builder, ChatMemory chatMemory) {
+    public AgentAI(ChatClient.Builder builder,
+                   ChatMemory chatMemory,
+                   ToolsAI toolsAI) {
         this.chatClient = builder
                 .defaultSystem("""
                         Vous etes un agent d'assistance virtuel pour une université nommée ENSET.
@@ -24,6 +27,7 @@ public class AgentAI {
                 .defaultAdvisors(MessageChatMemoryAdvisor
                         .builder(chatMemory)
                         .build())
+                .defaultTools(toolsAI)
                 .build();
     }
 
